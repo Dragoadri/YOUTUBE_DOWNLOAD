@@ -1090,6 +1090,10 @@ class YouTubeDownloaderApp(QMainWindow):
                     ssh_client.disconnect()
                     
                     if upload_success:
+                        # Guardar carpeta remota usada después de descarga exitosa
+                        if ssh_config and ssh_config.get('remote_folder'):
+                            self.app_settings.set_last_remote_folder(ssh_config['remote_folder'])
+                        
                         # Eliminar archivo temporal
                         try:
                             os.remove(actual_file)
@@ -1123,6 +1127,10 @@ class YouTubeDownloaderApp(QMainWindow):
                 )
                 
                 if success:
+                    # Guardar carpeta local usada después de descarga exitosa
+                    if output_folder:
+                        self.app_settings.set_last_local_folder(output_folder)
+                    
                     self.progress_hook.progress.emit(100, "¡Descarga completada!")
                     self.download_signals.message.emit(
                         f"¡Descarga completada! Archivo guardado en: {output_folder}",
