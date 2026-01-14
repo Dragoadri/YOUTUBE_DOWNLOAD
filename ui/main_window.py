@@ -482,10 +482,8 @@ class YouTubeDownloaderApp(QMainWindow):
         
         local_folder_group.setLayout(local_folder_layout)
         local_layout.addWidget(local_folder_group)
+        local_layout.addStretch()
         local_tab.setLayout(local_layout)
-
-        # Fijar altura máxima del local_tab basada en su contenido
-        local_tab.setMaximumHeight(100)
         
         # Pestaña: Destino SSH
         ssh_tab = QWidget()
@@ -640,21 +638,12 @@ class YouTubeDownloaderApp(QMainWindow):
         destination_tabs.addTab(local_tab, "LOCAL")
         destination_tabs.addTab(ssh_tab, "SSH")
 
-        # Configurar para que ajuste altura según contenido
-        destination_tabs.setSizePolicy(
-            destination_tabs.sizePolicy().horizontalPolicy(),
-            destination_tabs.sizePolicy().verticalPolicy()
-        )
-
         # Conectar cambio de pestaña
         destination_tabs.currentChanged.connect(self.on_tab_changed)
 
         self.destination_tabs = destination_tabs
         self.local_tab = local_tab
         self.ssh_tab = ssh_tab
-
-        # Altura inicial para pestaña Local
-        destination_tabs.setFixedHeight(120)
 
         main_layout.addWidget(destination_tabs)
         
@@ -756,10 +745,8 @@ class YouTubeDownloaderApp(QMainWindow):
         # Actualizar texto del botón de descargar según la pestaña activa
         if index == 1:  # Pestaña SSH
             self.download_button.setText(">> DESCARGAR + SSH")
-            self.destination_tabs.setFixedHeight(420)
         else:  # Pestaña Local (índice 0)
             self.download_button.setText(">> DESCARGAR")
-            self.destination_tabs.setFixedHeight(120)
 
     def on_platform_changed(self, index):
         """Se ejecuta cuando se cambia la plataforma seleccionada"""
